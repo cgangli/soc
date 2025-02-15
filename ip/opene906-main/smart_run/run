@@ -1,0 +1,61 @@
+#!bin/csh
+
+rm -rf ./work/run_case.report
+
+#如果kill不了，就加上-9,kill -9
+#find .nfs file,kill PID
+if ($#argv == 2) then
+    if ($argv[2] == "clear") then
+        find ./work -name '.nfs*' -exec ls {} \; | xargs lsof | awk '{print $2}' | grep -oE '[0-9]+' |xargs > kill_pid
+        set my_var = `cat kill_pid`
+        foreach num ($my_var)
+            echo "The number is: $num"
+            kill $num
+        rm -rf kill_pid
+    end 
+    else
+    endif
+endif
+echo "11111111111111"
+
+#set the env variables
+cd ../E906_RTL_FACTORY
+source setup/setup.csh
+echo "222222222222222"
+
+#GNU tool chain setting
+cd ../smart_run
+source setup/example_setup.csh
+echo "33333333333333333"
+
+#run test case
+if ($argv[1] == "all") then
+    make regress SIM=vcs DUMP=off
+else
+    make runcase CASE=$argv[1] SIM=vcs DUMP=on
+    #verdi will turn on if case passed
+    set run_case_rpt = `cat ./work/run_case.report`
+
+    if ($run_case_rpt[2] == "PASS") then
+        #open verdi
+        cd work
+        #verdi -f ../logical/filelists/sim.fl -top tb -sverilog -ssy -ssf e906.fsdb &
+    endif
+endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,11 @@
+#!/bin/csh
+#run_type:2  no syn,no impl
+#run_type:1  syn,no impl
+#run_type:0  syn, impl
+
+
+source vivado_set $OPEN_CPU_TYPE 0
+#source vivado_set open_c910 1
+
+
+

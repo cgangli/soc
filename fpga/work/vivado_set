@@ -1,0 +1,14 @@
+#!/bin/csh
+rm -rf rpt *.jou *.log  *.str   
+
+setenv  SOC_DIR "../../soc/"
+setenv  IP_DIR  "../../ip/"
+setenv  FPGA_DIR "../../fpga/"
+setenv  TOP_DIR  "../../top/"
+setenv  FLIST_PATH "../../top/flist/soc_top.f"
+
+#read flist from soc flist 
+python3 ../script/read_flist.py 
+
+#start vivado 
+vivado -mode batch -source ../script/vivado_flow.tcl -tclargs $1 $2  & 

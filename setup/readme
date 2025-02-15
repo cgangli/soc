@@ -1,0 +1,56 @@
+#####how to run case#########
+//run hello case
+run_ct asic hellow OPEN_E906 OPEN_DCLS
+run_ct fpga hellow OPEN_E906 OPEN_DCLS
+run_ct verdi_asic hellow OPEN_E906 OPEN_DCLS
+run_ct verdi_fpga hellow OPEN_E906 OPEN_DCLS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
