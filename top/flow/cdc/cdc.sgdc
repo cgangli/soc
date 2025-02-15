@@ -1,0 +1,62 @@
+#########################################################################
+# set current_design
+#########################################################################
+current_design $TOP_DESIGN
+
+
+# sdc_data -file ./sdc 
+
+
+#########################################################################
+# set cdc clock
+#########################################################################
+clock -name {i_pad_clk}          -domain PLL_CLK      -period 100     -edge {0 50}    -tag pll_clk     #100M
+clock -name {i_pad_jtg_tclk}     -domain JTAG_CLK     -period 250     -edge {0 125}   -tag jtag_clk    #4M
+
+#clock -name {top.u_lsif_subsys.clk_in}   -period 20 -edge {0 5}   -tag spi_clk
+
+# set divider clock 
+generated_clock -name {soc.x_cpu_sub_system_ahb.cpu_clk_div2}   -divide_by 2   -source {soc.x_cpu_sub_system_ahb.cpu_clk} -tag cpu_clk_div2
+#generated_clock -name {top.u_lsif_subsys.u_clk_divider.clk_out}     -divide_by 4   -source {top.u_clk_subsys.u_clk_divider_pclk.clk_out} -tag lsif_clk
+
+
+#########################################################################
+# set reset 
+#########################################################################
+reset -name {i_pad_rst_b}            -value 0 -async 
+reset -name {i_pad_jtg_nrst_b}       -value 0 -async
+reset -name {i_pad_jtg_trst_b}       -value 0 -async
+
+
+#########################################################################
+# disable scan_mode 
+#########################################################################
+#set_case_analysis -name {top.test_mode} -value 0
+#set_case_analysis -name {top.u_lsif_subsys.u_uart.uart_mode} -value 0
+
+
+#########################################################################
+#IO PORT
+#########################################################################
+abstract_port -ports  i_pad_uart0_sin        -clock i_pad_clk           -direction input 
+abstract_port -ports  b_pad_gpio_porta       -clock i_pad_clk           -direction input 
+abstract_port -ports  i_pad_jtg_tdi          -clock i_pad_jtg_tclk      -direction input 
+abstract_port -ports  i_pad_jtg_tms          -clock i_pad_jtg_tclk      -direction input 
+
+
+#########################################################################
+# cdc solution
+#########################################################################
+#cdc_false_path -from top.u_lsif_subsys.u_atcspi200.u_spi_spiif.spi_in_r -from_type data -to top.u_lsif_subsys.u_atcspi200.u_spi_spiif.spi_in_d1_r   -to_type data 
+#cdc_false_path -from top.u_lsif_subsys.u_atcspi200.u_spi_spiif.spi_in_r -from_type data -to top.u_lsif_subsys.u_atcspi200.u_spi_ctrl.rx_shift_reg_r -to_type data
+#cdc_false_path -from top.u_lsif_subsys.u_atcspi200.u_spi_ctrl.tx_mux_r  -from_type data -to top.u_lsif_subsys.u_atcspi200.u_spi_spiif.spi_out_slv_r -to_type data
+
+
+#########################################################################
+#quasi static
+#########################################################################
+#quasi_static -name top.u_lsif_subsys.u_atcspi200.u_spi_reg.reg_spi_format_r
+#quasi_static -name top.u_lsif_subsys.u_atcspi200.u_spi_spiif.spi_master
+#quasi_static -name top.u_lsif_subsys.u_atcspi200.u_spi_spiif.spi_miso_oe 
+#quasi_static -name top.u_lsif_subsys.u_atcspi200.u_spi_ctrl.slave_cmd 
+

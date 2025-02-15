@@ -1,0 +1,33 @@
+#!/bin/csh 
+#NOTICE:you must set env here,not in setup dir.if you donot do as i advice,the working dir will be out of control.
+#set common env
+set CURRENT_DIR = ../../..
+setenv SOC_DIR "${CURRENT_DIR}/soc"
+setenv IP_DIR "${CURRENT_DIR}/ip"
+setenv TOP_DIR "${CURRENT_DIR}/top"
+setenv FPGA_DIR "${CURRENT_DIR}/fpga"
+setenv CODE_BASE_PATH "${IP_DIR}/opene906-main/E906_RTL_FACTORY"
+#$1 is recommended;$argv[1] is not recommended here
+setenv OPEN_CPU_TYPE  "$1" 
+
+#set top and filelist
+setenv FILE_LIST "$2"
+setenv TOP_DESIGN  $3
+
+
+echo "\n#######arg1:$1##########"
+echo "\n#######arg2:$2##########"
+echo "\n#######arg3:$3##########"
+
+echo "\n#######OPEN_CPU_TYPE:$OPEN_CPU_TYPE##########"
+echo "\n#######FILE_LIST:$FILE_LIST##########"
+echo "#######TOP_DESIGN:$TOP_DESIGN##########"
+
+#rm archive
+rm -rf *.log  spyglass*  *.out
+
+#launch lint
+spyglass -shell -tcl lint.tcl & 
+
+
+

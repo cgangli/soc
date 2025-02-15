@@ -1,0 +1,21 @@
+#!/bin/csh 
+#NOTICE:you must set env here,not in setup dir.if you donot do as i advice,the working dir will be out of control.
+#set common env
+set CURRENT_DIR = ../../..
+setenv SOC_DIR "${CURRENT_DIR}/soc"
+setenv IP_DIR "${CURRENT_DIR}/ip"
+setenv TOP_DIR "${CURRENT_DIR}/top"
+setenv FPGA_DIR "${CURRENT_DIR}/fpga"
+setenv CODE_BASE_PATH "${IP_DIR}/opene906-main/E906_RTL_FACTORY"
+
+#set top and filelist
+setenv TOP_DESIGN  $2
+setenv FILE_LIST "$1"
+
+
+#rm archive
+rm -rf *.log  spyglass*  *.out
+
+#launch lint
+spyglass -project *.prj
+
